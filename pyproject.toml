@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "radium-test-case"
+version = "0.1.0"
+description = ""
+authors = ["Maksim Vikhrov <maxvihr@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "radium_test_case"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.8.4"
+beautifulsoup4 = "^4.12.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
