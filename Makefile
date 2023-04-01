@@ -1,2 +1,2 @@
 run:
-	poetry run python main.py
+	poetry run python -m case.main
