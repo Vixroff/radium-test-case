@@ -8,4 +8,4 @@ test:
 	poetry run pytest
 
 code-coverage:
-	poetry run pytest --cov
+	poetry run pytest --cov=case --cov-report xml

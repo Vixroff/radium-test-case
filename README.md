@@ -1,3 +1,6 @@
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b5519cc19f3aad92c445/test_coverage)](https://codeclimate.com/github/Vixroff/radium-test-case/test_coverage)
+
+[![lints-and-tests](https://github.com/Vixroff/radium-test-case/actions/workflows/code_check.yaml/badge.svg)](https://github.com/Vixroff/radium-test-case/actions/workflows/code_check.yaml)
 # Тестовое задание компании "Радиум" #
 
 ## Требования ##
