@@ -26,12 +26,12 @@ async def request(url: str, client: aiohttp.ClientSession) -> str:
 
 
 async def download(
-    item: BeautifulSoup, folder: str, client: aiohttp.ClientSession,
+    repo_item: BeautifulSoup, folder: str, client: aiohttp.ClientSession,
 ) -> None:
     """Функция-корутина - загрузчик объекта репозитория.
 
     Принимает на вход:
-        item - объект BeautifulSoup,требующий скачивания;
+        repo_item - объект BeautifulSoup,требующий скачивания;
         path - директория сохранения;
         client - объект сессии клиента;
 
@@ -43,25 +43,25 @@ async def download(
         2. Загрузка объекта;
         3. Запись объекта в файл;
     """
-    content = await request(
-        urljoin(URL, item.find('a').get('href')),
+    item_content = await request(
+        urljoin(URL, repo_item.find('a').get('href')),
         client,
     )
-    raw_link = await get_link_to_download(content)
+    raw_link = await get_link_to_download(item_content)
     if raw_link:
-        data = await request(raw_link, client)
+        raw_content = await request(raw_link, client)
         with open(
             os.path.join(folder, raw_link.split('/')[-1]), 'w',
-        ) as file:
-            file.write(data)
+        ) as fl:
+            fl.write(raw_content)
     else:
-        soup = BeautifulSoup(content, 'html.parser')
+        soup = BeautifulSoup(item_content, 'html.parser')
         await asyncio.gather(
             *[download(
-                item,
+                repo_item,
                 folder,
                 client,
-            ) for item in soup.find_all('tr', class_='ready entry')
+            ) for repo_item in soup.find_all('tr', class_='ready entry')
             ],
         )
 
@@ -69,9 +69,9 @@ async def download(
 async def download_repo(folder: str) -> None:
     """Функция-корутина, скачивающая репозиторий."""
     async with aiohttp.ClientSession() as client:
-        content = await request(URL, client)
-        soup = BeautifulSoup(content, 'html.parser')
-        items = soup.find_all('tr', class_='ready entry')
+        repo_content = await request(URL, client)
+        soup = BeautifulSoup(repo_content, 'html.parser')
+        repo_items = soup.find_all('tr', class_='ready entry')
         await asyncio.gather(
-            *[download(item, folder, client) for item in items],
+            *[download(repo_item, folder, client) for repo_item in repo_items],
         )

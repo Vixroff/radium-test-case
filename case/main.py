@@ -11,10 +11,10 @@ from case.download import download_repo
 
 def get_all_files(directory: str) -> list:
     """Функция собирает файлы c абсолютным путем."""
-    result = []
-    for item in os.listdir(directory):
-        result.append(os.path.join(directory, item))
-    return result
+    files = []
+    for file_item in os.listdir(directory):
+        files.append(os.path.join(directory, file_item))
+    return files
 
 
 def get_file_hash(filepath: str) -> dict:
@@ -22,21 +22,21 @@ def get_file_hash(filepath: str) -> dict:
     hash_ = hashlib.sha256()
     with open(filepath, 'rb') as fl:
         while True:
-            data = fl.read()
-            if not data:
+            file_content = fl.read()
+            if not file_content:
                 break
-            hash_.update(data)
+            hash_.update(file_content)
     return hash_.hexdigest()
 
 
 def calculate_hashes_files(files: list) -> dict:
     """Функция вычисляет хеш суммы файлов."""
-    result = {}
-    for file in files:
-        filename = file.split('/')[-1]
-        filehash = get_file_hash(file)
-        result[filename] = filehash
-    return result
+    file_hashes = {}
+    for file_item in files:
+        filename = file_item.split('/')[-1]
+        filehash = get_file_hash(file_item)
+        file_hashes[filename] = filehash
+    return file_hashes
 
 
 def main() -> None:
@@ -52,10 +52,10 @@ def main() -> None:
         else:
             file_hashes = calculate_hashes_files(get_all_files((tempdir)))
             with open(os.path.join(os.getcwd(), 'hashes.txt'), 'w') as fl:
-                for key, value in file_hashes.items():
+                for file_item, file_hash in file_hashes.items():
                     fl.write(
                         'Hash of file "{0}" is {1}\n'.format(
-                            key, value,
+                            file_item, file_hash,
                         ),
                     )
 
