@@ -10,7 +10,7 @@ from case.download import download_repo
 
 
 def get_all_files(directory: str) -> list:
-    """Функция собирает файлы."""
+    """Функция собирает файлы c абсолютным путем."""
     result = []
     for item in os.listdir(directory):
         result.append(os.path.join(directory, item))

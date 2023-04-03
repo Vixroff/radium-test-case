@@ -3,3 +3,5 @@ info.txt
 hashes.txt
 .cache
 __pycache__
+.pytest_cache
+.coverage

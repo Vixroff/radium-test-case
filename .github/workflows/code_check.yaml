@@ -1,0 +1,24 @@
+name: lints-and-tests
+
+on: 
+  push:
+    branches: ['main']
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with: 
+          python-version: "3.11"
+      - name: Set up poetry with deps
+        run: |
+          pip install poetry
+          poetry install
+      - name: Lints and tests
+        run: |
+          make lint
+          make test
